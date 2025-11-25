@@ -1,0 +1,13 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "c:\\Users\\moodiel\\OneDrive - Limestone DSB\\ICS3C\\lib\\javafx-sdk-21.0.9\\lib\\javafx.base.jar",
+        "c:\\Users\\moodiel\\OneDrive - Limestone DSB\\ICS3C\\lib\\javafx-sdk-21.0.9\\lib\\javafx.controls.jar",
+        "c:\\Users\\moodiel\\OneDrive - Limestone DSB\\ICS3C\\lib\\javafx-sdk-21.0.9\\lib\\javafx.fxml.jar",
+        "c:\\Users\\moodiel\\OneDrive - Limestone DSB\\ICS3C\\lib\\javafx-sdk-21.0.9\\lib\\javafx.graphics.jar",
+        "c:\\Users\\moodiel\\OneDrive - Limestone DSB\\ICS3C\\lib\\javafx-sdk-21.0.9\\lib\\javafx.media.jar",
+        "c:\\Users\\moodiel\\OneDrive - Limestone DSB\\ICS3C\\lib\\javafx-sdk-21.0.9\\lib\\javafx.swing.jar",
+        "c:\\Users\\moodiel\\OneDrive - Limestone DSB\\ICS3C\\lib\\javafx-sdk-21.0.9\\lib\\javafx.web.jar",
+        "c:\\Users\\moodiel\\OneDrive - Limestone DSB\\ICS3C\\lib\\javafx-sdk-21.0.9\\lib\\javafx-swt.jar"
+    ]
+}
