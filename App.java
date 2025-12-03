@@ -33,7 +33,7 @@ public class App extends Application {
     private static final int TILE_SIZE = 20;
     private static final int WIDTH = 600;
     private static final int HEIGHT = 600;
-    private static final int COLUMNS = WIDTH / TILE_SIZE;// grid size 900
+    private static final int COLUMNS = WIDTH / TILE_SIZE;// grid size 9  00
     private static final int ROWS = HEIGHT / TILE_SIZE;
     Label scores = new Label();
     Label highscoresLabel = new Label();
@@ -115,7 +115,7 @@ public class App extends Application {
         int[] head = snake.get(0);
         int newX = head[0] + dirX;
         int newY = head[1] + dirY;
-        score = score;
+        
 
         // Check wall collision
         if (newX < 0 || newY < 0 || newX >= COLUMNS || newY >= ROWS) {
@@ -159,18 +159,26 @@ public class App extends Application {
             gc.fillRect(part[0] * TILE_SIZE, part[1] * TILE_SIZE, TILE_SIZE - 1, TILE_SIZE - 1);
         }
 
-        if (gameOver) {
+        if (gameOver) { 
             gc.setFill(Color.web("#f5faffff"));
             gc.fillText("GAME OVER - press SPACE to restart", WIDTH / 2 - 100, HEIGHT / 2);
             File high_score = new File("Highscore.txt");
             try{
             Scanner highScore = new Scanner(high_score);
+            highscore = highScore.nextInt();
+            if (score >  highscore){
+                highscore= score;
+            }
+            gc.fillText("The high score is " + highscore, WIDTH / 2 - 100, HEIGHT / 2.2);
+            
+           
             }catch (FileNotFoundException e){}
-            //highscore =;
+            
 
             
             
         }
+        
         
 
         }
