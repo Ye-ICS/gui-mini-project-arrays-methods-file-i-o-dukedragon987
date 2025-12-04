@@ -6,15 +6,15 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +33,7 @@ public class App extends Application {
     private static final int TILE_SIZE = 20;
     private static final int WIDTH = 600;
     private static final int HEIGHT = 600;
-    private static final int COLUMNS = WIDTH / TILE_SIZE;// grid size 9  00
+    private static final int COLUMNS = WIDTH / TILE_SIZE;// grid size 900
     private static final int ROWS = HEIGHT / TILE_SIZE;
     Label scores = new Label();
     Label highscoresLabel = new Label();
@@ -52,7 +52,7 @@ public class App extends Application {
     private int dirY = 0;
 
     @Override
-    public void start(Stage primaryStage)throws FileNotFoundException { 
+    public void start(Stage primaryStage)throws FileNotFoundException, IOException, InvocationTargetException{ 
         Canvas canvas = new Canvas(WIDTH, HEIGHT);
         GraphicsContext gc = canvas.getGraphicsContext2D();
         // Initialize snake (3 segments)
@@ -65,7 +65,11 @@ public class App extends Application {
         timeline = new Timeline(new KeyFrame(Duration.millis(120), e -> {
             if (!gameOver) {
                 update();
-                draw(gc);
+                try{  
+                     draw(gc);}catch(IOException e2){
+                        System.out.println("Failed to draw");
+                     }
+                
                 System.out.println(score);
             }
                // current score
@@ -83,7 +87,7 @@ public class App extends Application {
         root.getChildren().addAll(canvas, scores);
         Scene scene = new Scene(root, WIDTH, HEIGHT);
 
-        // Input
+        // Input from user
         scene.setOnKeyPressed(event -> {
             KeyCode code = event.getCode();
 
@@ -144,7 +148,7 @@ public class App extends Application {
         }
     }
 
-    private void draw(GraphicsContext gc) {
+    private void draw(GraphicsContext gc) throws IOException {
         // background
         gc.setFill(Color.web("#2c6ca8"));
         gc.fillRect(0, 0, WIDTH, HEIGHT);
@@ -162,13 +166,20 @@ public class App extends Application {
         if (gameOver) { 
             gc.setFill(Color.web("#f5faffff"));
             gc.fillText("GAME OVER - press SPACE to restart", WIDTH / 2 - 100, HEIGHT / 2);
+            gc.fillText("Your score is " + score, WIDTH / 2 - 100, HEIGHT / 2.1);
             File high_score = new File("Highscore.txt");
             try{
             Scanner highScore = new Scanner(high_score);
             highscore = highScore.nextInt();
             if (score >  highscore){
                 highscore= score;
+   
+
             }
+            highScore.close();
+             FileWriter newScore = new FileWriter(high_score);
+                newScore.write(String.valueOf(highscore));
+                newScore.close();
             gc.fillText("The high score is " + highscore, WIDTH / 2 - 100, HEIGHT / 2.2);
             
            
@@ -176,7 +187,7 @@ public class App extends Application {
             
 
             
-            
+        
         }
         
         
@@ -187,6 +198,7 @@ public class App extends Application {
 
     private void spawnFood() {
         while (true) {
+            
             int x = random.nextInt(COLUMNS);
             int y = random.nextInt(ROWS);
             boolean onSnake = false;
