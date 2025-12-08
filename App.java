@@ -33,14 +33,14 @@ public class App extends Application {
     private static final int TILE_SIZE = 20;
     private static final int WIDTH = 600;
     private static final int HEIGHT = 600;
-    private static final int COLUMNS = WIDTH / TILE_SIZE;// grid size 900
+    private static final int COLUMNS = WIDTH / TILE_SIZE;// grid size 90
     private static final int ROWS = HEIGHT / TILE_SIZE;
     Label scores = new Label();
     Label highscoresLabel = new Label();
     StackPane root = new StackPane();
 
     // Game objects
-    private List<int[]> snake = new ArrayList<>();// need to change to array
+    private List<int[]> snake = new ArrayList<>();
     private int[] food = new int[2];
     // Logic
     private boolean gameOver = false;
@@ -53,18 +53,20 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage)throws FileNotFoundException, IOException, InvocationTargetException{ 
+       
         Canvas canvas = new Canvas(WIDTH, HEIGHT);
         GraphicsContext gc = canvas.getGraphicsContext2D();
         // Initialize snake (3 segments)
         snake.clear();
-        snake.add(new int[] { 10, 10 });// need to change to array
+        snake.add(new int[] { 10, 10 });
         snake.add(new int[] { 9, 10 });
         snake.add(new int[] { 8, 10 });
 
         // Game loop
         timeline = new Timeline(new KeyFrame(Duration.millis(120), e -> {
             if (!gameOver) {
-                update();
+                update(); 
+                // will try to draw the frame but if faild it will print Failed to draw in the terminal
                 try{  
                      draw(gc);}catch(IOException e2){
                         System.out.println("Failed to draw");
@@ -103,7 +105,20 @@ public class App extends Application {
             } else if (code == KeyCode.RIGHT && dirX != -1) {
                 dirX = 1;
                 dirY = 0;
-            } else if (code == KeyCode.SPACE && gameOver) {
+
+            } else if (code == KeyCode.W && dirY != -1) {
+                dirX = 0;
+                dirY = -1;
+            }else if (code == KeyCode.S && dirY != -1) {
+                dirX = 0;
+                dirY = 1;
+            } else if (code == KeyCode.A && dirX != 1) {
+                dirX = -1;
+                dirY = 0;
+            } else if (code == KeyCode.D && dirX != -1) {
+                dirX = 1;
+                dirY = 0;
+            }else if (code == KeyCode.SPACE && gameOver) {
                 restart();
             }
         });
